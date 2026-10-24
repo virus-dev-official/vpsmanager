@@ -1,0 +1,60 @@
+# Source of truth for VPSManager.xcodeproj. The generated project is committed,
+# so you only need XcodeGen (`brew install xcodegen`) if you change this file —
+# then run `xcodegen` from the repo root and commit both.
+name: VPSManager
+options:
+  bundleIdPrefix: com.virus-dev-official
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+
+packages:
+  SwiftTerm:
+    url: https://github.com/migueldeicaza/SwiftTerm
+    exactVersion: 1.15.0
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1.0"
+
+targets:
+  VPSManager:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources/VPSManager
+        excludes:
+          - Resources/Info.plist
+    dependencies:
+      - package: SwiftTerm
+    info:
+      path: Sources/VPSManager/Resources/Info.plist
+    settings:
+      base:
+        PRODUCT_NAME: VPSManager
+        PRODUCT_BUNDLE_IDENTIFIER: com.virus-dev-official.vpsmanager
+        INFOPLIST_FILE: Sources/VPSManager/Resources/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        # Runs on any Mac without an Apple developer account. Contributors with
+        # one can pick their team in Signing & Capabilities instead.
+        CODE_SIGN_STYLE: Manual
+        CODE_SIGN_IDENTITY: "-"
+        DEVELOPMENT_TEAM: ""
+        ENABLE_HARDENED_RUNTIME: NO
+        # The app shells out to ssh/rsync and reads ~/.ssh, so it can't be sandboxed.
+        ENABLE_APP_SANDBOX: NO
+        COMBINE_HIDPI_IMAGES: YES
+
+schemes:
+  VPSManager:
+    build:
+      targets:
+        VPSManager: all
+    run:
+      config: Debug
+    archive:
+      config: Release

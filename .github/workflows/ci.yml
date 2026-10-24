@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v6
+      # SwiftTerm ships a Metal shader, which needs Xcode's Metal Toolchain.
+      - run: xcodebuild -downloadComponent MetalToolchain || true
+      - run: |
+          xcodebuild \
+            -project VPSManager.xcodeproj \
+            -scheme VPSManager \
+            -configuration Release \
+            -destination "generic/platform=macOS" \
+            -derivedDataPath .build/xcode \
+            build
