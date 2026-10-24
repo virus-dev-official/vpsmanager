@@ -631,6 +631,10 @@ struct ServerDetailView: View {
                 case .systemd: SystemdView(server: server)
                 }
             }
+            // A new identity per server, so switching servers rebuilds the tab with
+            // fresh state and restarts its .task; otherwise a tab kept polling and
+            // showing the server you came from.
+            .id(server.id)
             .opacity(isPersistentTab ? 0 : 1)
             .allowsHitTesting(!isPersistentTab)
 
